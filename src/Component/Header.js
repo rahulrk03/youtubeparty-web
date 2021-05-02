@@ -1,51 +1,45 @@
-import React, {useState} from 'react'
-import VideoPlayer from './VideoPlayer'
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+// import MenuIcon from '@material-ui/icons/Menu';
+import HomeIcon from '@material-ui/icons/Home';
+import Home from './Home'
 
-function Header(props) {
-    const [input, setInput] = useState("")
-    const [videoUrl, setVideoUrl] = useState("https://www.youtube.com/watch?v=7zEx0AJguSM")
-    const addInput = (event) => {
-        event.preventDefault();
-        console.log(input)
-        setVideoUrl(input)
-        setInput('')
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+    marginRight: theme.spacing(10)
+  },
+}));
 
-    }
-
-    const mystyle = {
-        fontFamily: "Arial",
-        paddingBottom: "20px",
-        marginLeft: "20px",
-        marginTop: "20px"
-    };
-
-    const videoPlayerStyle = {
-        marginLeft: "20px"
-    };
-
+function Header() {
+    const classes = useStyles();
     return (
-        <div>
-            <form style={mystyle}>
-                <label>
-                Enter Video Url:  
-                    <input type="text" name="name" 
-                    value={input} 
-                    onChange={e => setInput(e.target.value)}
-                    />
-                </label>
-                <input 
-                    type="submit" 
-                    value="Submit" 
-                    onClick={ addInput }/>
-            </form>
-            
-            <VideoPlayer 
-                style={videoPlayerStyle}
-                videoUrl={videoUrl} />
+        <div className={classes.root}>
+            <AppBar position="static">
+                <Toolbar>
+                <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                    <HomeIcon />
+                </IconButton>
+                <Typography variant="h6" className={classes.title}>
+                    Home
+                </Typography>
+                {/* <Button color="inherit">Login</Button> */}
+                </Toolbar>
+            </AppBar>
+            <Home />
         </div>
     )
 }
 
-
 export default Header
-
