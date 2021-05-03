@@ -1,9 +1,42 @@
-import React from 'react'
+import React, {useState} from 'react'
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import Room from './Room';
 
-function JoinRoom() {
+function JoinRoom(props) {
+    const location = useLocation();
+    const [roomId, setRoomId] = useState('')
+    const containerStyle={
+        padding: "10px",
+        display: 'flex', 
+        flexDirection: 'row',
+    }
+
+    const roomStyle={
+        // width:"30%",
+        display: 'flex', 
+        flexDirection: 'column',
+        padding:"10px",
+        textDecoration: 'none'
+    }
+    // const roomIdStyle ={
+    //     display: 'flex', 
+    //     flexDirection: 'column',
+    //     padding:"10px",
+    //     textDecoration: 'none',
+    //     marginLeft:'520px'
+    // }
+
+    useEffect(() => {
+        // console.log(location.pathname);
+        // console.log(location.state.roomId);
+        setRoomId(location.state.roomId)
+     }, [location]);
     return (
         <div>
-            <h1>Joined a room</h1>
+            <div style={containerStyle}>
+                <Room style={roomStyle} roomId={roomId} />
+            </div>
         </div>
     )
 }
