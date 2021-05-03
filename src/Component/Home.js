@@ -46,7 +46,6 @@ function Home() {
                     );
                 })
                 .catch(error=>{
-                    console.log("hello")
                     Alert('Wrong Room Id', 'Ooops');
                 });
             } else {

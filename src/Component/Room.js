@@ -1,15 +1,46 @@
-import React, {useState} from 'react'
+import React, {useState, useRef, useEffect} from 'react'
 import VideoPlayer from './VideoPlayer'
+import Chat from './Chat'
+import Button from '@material-ui/core/Button';
+
+
+
 
 function Room(props) {
+    const ws = useRef(null);
+    const ws1 = new WebSocket('ws://localhost:8000/ws/chat/96560426/')
+
     const [input, setInput] = useState("")
     const [videoUrl, setVideoUrl] = useState("")
+
+    const sendMessage=(event)=>{
+        event.preventDefault();
+        // setVideoUrl(input)
+        const message = { videoUrl: input, message:null }
+        ws1.send(JSON.stringify(message))
+        setInput('')
+    }
+
+    useEffect(() => {
+        ws.current = new WebSocket("ws://localhost:8000/ws/chat/96560426/");
+        ws.current.onopen = () => console.log("ws opened");
+        ws.current.onclose = () => console.log("ws closed");
+        ws.current.onmessage = (e) => {
+            const message1 = JSON.parse(e.data);
+            // console.log("e", message1);
+            if (message1.videoUrl){
+                setVideoUrl(message1.videoUrl)
+            }
+        }
+        return () => {
+            ws.current.close();
+        };
+    }, []);
+
     const addInput = (event) => {
         event.preventDefault();
-        console.log(input)
         setVideoUrl(input)
         setInput('')
-
     }
 
     const containerStyle={
@@ -21,16 +52,9 @@ function Room(props) {
         fontFamily: "Arial",
         paddingBottom: "20px",
         marginLeft: "20px",
-        // marginTop: "20px",
         display: 'flex', 
         flexDirection: 'column',
-        // width:"100%"
     };
-
-    // const roomStyle={
-    //     padding:"10px",
-    //     textDecoration: 'none'
-    // }
     const roomIdStyle ={
         display: 'flex', 
         flexDirection: 'column',
@@ -39,32 +63,69 @@ function Room(props) {
         marginLeft:'650px',
     }
 
+    const mainContentStyle ={
+        display: 'flex', 
+        flexDirection: 'row',
+    }
+
     const videoPlayerStyle = {
-        marginLeft: "20px"
+        marginLeft: "20px",
+        display: 'flex', 
+        flexDirection: 'column',
+        paddingRight:'10px'
     };
+
+    const chatStyle ={
+        display: 'flex', 
+        flexDirection: 'column',
+        float:'right'
+    }
+
+    const inputStyle ={
+        height:'35px',
+        padding: '5px',
+        width: '70%'
+    }
+
+
     return (
         <div>
             <div style={containerStyle}>
                 <form style={formStyle}>
                     <label>
-                    Enter Video Url:  
-                        <input type="text" name="name" 
+                        <input style={ inputStyle }type="text" name="name" 
+                            placeholder= "Enter Video Url"
                         value={input} 
                         onChange={e => setInput(e.target.value)}
                         />
-                        <input 
-                        type="submit" 
-                        value="Submit" 
-                        onClick={ addInput }/>
+                        <Button  variant="contained"
+                        color="primary"
+                       onClick={sendMessage}>
+                       Submit
+                   </Button>
                     </label>
+                    {/* <TextField
+                        id="filled-margin-dense"
+                        placeholder="Enter Video URL"
+                        className={classes.textField}
+                        margin="dense"
+                        variant="filled"
+                        ></TextField><Button  variant="contained"
+                        color="primary"
+                       onClick={sendMessage}>
+                       Join Room
+                   </Button> */}
                 </form>
                 <div style={roomIdStyle}>
                     <strong>Room Id: {props.roomId}</strong>
                 </div>
             </div>
-            <VideoPlayer 
-                style={videoPlayerStyle}
-                videoUrl={videoUrl} />
+            <div style={mainContentStyle}>
+                <VideoPlayer 
+                    style={videoPlayerStyle}
+                    videoUrl={videoUrl} />
+                <Chat style={chatStyle} />
+            </div>
         </div>
     )
 }

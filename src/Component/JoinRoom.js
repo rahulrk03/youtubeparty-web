@@ -19,13 +19,6 @@ function JoinRoom(props) {
         padding:"10px",
         textDecoration: 'none'
     }
-    // const roomIdStyle ={
-    //     display: 'flex', 
-    //     flexDirection: 'column',
-    //     padding:"10px",
-    //     textDecoration: 'none',
-    //     marginLeft:'520px'
-    // }
 
     useEffect(() => {
         // console.log(location.pathname);
