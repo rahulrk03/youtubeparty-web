@@ -5,7 +5,7 @@ import ReactPlayer from 'react-player';
 function VideoPlayer(props) {
     
     const [playStatus, setPlayStatus] = useState(false)
-
+    // console.log("VideoUrl is-", props.videoUrl)
     // const playFunction = (event) => {
     //     event.preventDefault();
     //     setPlayStatus(!playStatus)
@@ -38,7 +38,7 @@ function VideoPlayer(props) {
         ws.current.onmessage = (e) => {
             const message1 = JSON.parse(e.data);
             console.log("e", message1);
-            if (message1.playStatus == "Resume"){
+            if (message1.playStatus === "Resume"){
                 console.log("hello")
                 setPlayStatus(true)
             }

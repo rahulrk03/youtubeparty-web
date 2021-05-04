@@ -1,19 +1,21 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Scrollbars } from 'rc-scrollbars';
+// import {webSocketEndpoint} from './Endpoint';
 
-function Chat() {
+function Chat(props) {
     const [messages,setMessages] = useState([]);
     const [sendMessageData, setSendMessageData] = useState('');
     const ws = useRef(null);
-    const ws1 = new WebSocket('ws://localhost:8000/ws/chat/96560426/')
+    // const roomId = props.roomId;
+    // const wse1 = props.wse;
+    const ws1 = new WebSocket(props.wse)
    
     useEffect(() => {
-        ws.current = new WebSocket("ws://localhost:8000/ws/chat/96560426/");
+        ws.current = ws1;
         ws.current.onopen = () => console.log("ws opened");
         ws.current.onclose = () => console.log("ws closed");
         ws.current.onmessage = (e) => {
             const message1 = JSON.parse(e.data);
-            // console.log("e", message1.message);
             if (message1.message){
                 setMessages(messages => [...messages, message1.message]);
             }

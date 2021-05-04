@@ -6,6 +6,8 @@ import Room from './Room';
 function JoinRoom(props) {
     const location = useLocation();
     const [roomId, setRoomId] = useState('')
+    const [userName, setUserName] = useState('')
+    console.log("user is:", userName)
     const containerStyle={
         padding: "10px",
         display: 'flex', 
@@ -22,8 +24,9 @@ function JoinRoom(props) {
 
     useEffect(() => {
         // console.log(location.pathname);
-        // console.log(location.state.roomId);
+        console.log(location.state);
         setRoomId(location.state.roomId)
+        setUserName(location.state.userName)
      }, [location]);
     return (
         <div>

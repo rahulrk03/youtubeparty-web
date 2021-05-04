@@ -4,14 +4,13 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import GroupIcon from '@material-ui/icons/Group';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
-import {ApiEndpoint} from './Endpoint'
+import {ApiEndpoint} from './Endpoint';
 import './JoinModal.css';
 import JoinRoomModel from './JoinRoomModel';
 import { CustomDialog, Alert } from 'react-st-modal';
-// import JoinRoom from './JoinRoom'
-// import Header from './Header';
 
-function Home() {
+
+function Home(props) {
     const history = useHistory();
 
     function handleClick() {
@@ -81,7 +80,6 @@ function Home() {
 
     return (
         <div>
-            {/* <Header /> */}
             <div style={containerStyle}>
             <Link style= {createButtonStyle}  onClick={handleClick}>
                 <Button  variant="contained">

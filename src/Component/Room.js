@@ -2,27 +2,29 @@ import React, {useState, useRef, useEffect} from 'react'
 import VideoPlayer from './VideoPlayer'
 import Chat from './Chat'
 import Button from '@material-ui/core/Button';
-
+import {webSocketEndpoint} from './Endpoint';
 
 
 
 function Room(props) {
     const ws = useRef(null);
-    const ws1 = new WebSocket('ws://localhost:8000/ws/chat/96560426/')
+    console.log("Room Id", props.roomId)
+    const wse = webSocketEndpoint + props.roomId + "/";
+    const ws1 = new WebSocket(wse)
 
     const [input, setInput] = useState("")
     const [videoUrl, setVideoUrl] = useState("")
 
     const sendMessage=(event)=>{
         event.preventDefault();
-        // setVideoUrl(input)
+        // console.log("videoUrl is: ", input)
         const message = { videoUrl: input, message:null }
         ws1.send(JSON.stringify(message))
         setInput('')
     }
 
     useEffect(() => {
-        ws.current = new WebSocket("ws://localhost:8000/ws/chat/96560426/");
+        ws.current = ws1;
         ws.current.onopen = () => console.log("ws opened");
         ws.current.onclose = () => console.log("ws closed");
         ws.current.onmessage = (e) => {
@@ -37,11 +39,11 @@ function Room(props) {
         };
     }, []);
 
-    const addInput = (event) => {
-        event.preventDefault();
-        setVideoUrl(input)
-        setInput('')
-    }
+    // const addInput = (event) => {
+    //     event.preventDefault();
+    //     setVideoUrl(input)
+    //     setInput('')
+    // }
 
     const containerStyle={
         display: 'flex', 
@@ -124,7 +126,7 @@ function Room(props) {
                 <VideoPlayer 
                     style={videoPlayerStyle}
                     videoUrl={videoUrl} />
-                <Chat style={chatStyle} />
+                <Chat style={chatStyle} wse ={wse}/>
             </div>
         </div>
     )

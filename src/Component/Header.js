@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -6,7 +6,9 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 // import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
-import { Link } from 'react-router-dom';
+import { CustomDialog } from 'react-st-modal';
+import { useHistory } from 'react-router-dom';
+import UserNameModal from './UserNameModal';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,22 +23,47 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Header() {
+function Header(props) {
+    const history = useHistory();
     const classes = useStyles();
+    const [userName, setUserName] = useState(props.userName);
+    const routeChange = () =>{
+      history.push('/');
+    }
+
+
+  const handleChange= async ()=> {
+    const result = await CustomDialog(<UserNameModal userName={userName}/>, 
+      {
+          title: 'Hello!'
+        });
+      if (result){
+        setUserName(result)
+      }
+  }
+
+
     return (
         <div className={classes.root}>
             <AppBar position="static">
-              <Link to="/" style={{textDecoration: 'none', color: 'inherit'}}>  
                 <Toolbar>
-                  <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                  <IconButton edge="start" 
+                  className={classes.menuButton} 
+                  color="inherit" 
+                  aria-label="menu"
+                  onClick={routeChange}>
                     <HomeIcon />
                   </IconButton>
-                <Typography variant="h6" className={classes.title}>
+                <Typography variant="h6" onClick={routeChange} className={classes.title}>
                     Home
                 </Typography>
+                <form>
+                <Typography variant="h6" className={classes.title} onClick={handleChange}>
+                    {userName}
+                </Typography>
+                </form>
                 {/* <Button color="inherit">Login</Button> */}
                 </Toolbar>
-              </Link>
             </AppBar>
         </div>
     )

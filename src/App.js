@@ -2,6 +2,7 @@ import './App.css';
 import Header from './Component/Header';
 import Home from './Component/Home';
 import JoinRoom from './Component/JoinRoom';
+import {useState} from 'react';
 // import Chat from './Component/Chat';
 import {
     BrowserRouter as Router,
@@ -12,14 +13,18 @@ import {
   
 
 function App() {
+
+  const userName = 'Enter Your Name'
+
   return (
     <>
     <Router>
-    <Header />
+    <Header userName={userName}/>
+    <Home></Home>
       <Switch>
-          <Route exact path="/" component={Home}></Route>
+          {/* <Route exact path="/" component= {() => (<Home userName={userName} />)}></Route>
           <Route exact path="/home" component={Home}></Route>
-          <Route path="/joinroom" component={JoinRoom}></Route>
+          <Route path="/joinroom" component={JoinRoom}></Route> */}
         </Switch>
     </Router>
     </>
