@@ -1,8 +1,10 @@
 import React, { useRef, useEffect, useState }  from 'react';
 import ReactPlayer from 'react-player';
+import {webSocketEndpoint} from './Endpoint';
 
 
 function VideoPlayer(props) {
+    // console.log("Room Id", props.roomId)
     
     const [playStatus, setPlayStatus] = useState(false)
     // console.log("VideoUrl is-", props.videoUrl)
@@ -10,16 +12,15 @@ function VideoPlayer(props) {
     //     event.preventDefault();
     //     setPlayStatus(!playStatus)
     // }
-
+    const roomId = props.roomId;
+    const wse = webSocketEndpoint +  roomId+ "/";
+    const ws1 = new WebSocket(wse)
     const ws = useRef(null);
-    const ws1 = new WebSocket('ws://localhost:8000/ws/chat/96560426/')
 
     const playFunction=(event)=>{
         event.preventDefault();
         // setVideoUrl(input)
-        console.log(playStatus)
         setPlayStatus(!playStatus)
-        console.log(playStatus)
         // const newStatus = ''
         if (playStatus){
             const message = {playStatus:"Stop"}
@@ -32,14 +33,12 @@ function VideoPlayer(props) {
     }
 
     useEffect(() => {
-        ws.current = new WebSocket("ws://localhost:8000/ws/chat/96560426/");
+        ws.current = new WebSocket(wse);
         ws.current.onopen = () => console.log("ws opened");
         ws.current.onclose = () => console.log("ws closed");
         ws.current.onmessage = (e) => {
             const message1 = JSON.parse(e.data);
-            console.log("e", message1);
             if (message1.playStatus === "Resume"){
-                console.log("hello")
                 setPlayStatus(true)
             }
             else{
@@ -49,7 +48,7 @@ function VideoPlayer(props) {
         return () => {
             ws.current.close();
         };
-    }, []);
+    });
 
     return (
         <div>

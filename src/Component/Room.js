@@ -8,7 +8,6 @@ import {webSocketEndpoint} from './Endpoint';
 
 function Room(props) {
     const ws = useRef(null);
-    console.log("Room Id", props.roomId)
     const wse = webSocketEndpoint + props.roomId + "/";
     const ws1 = new WebSocket(wse)
 
@@ -37,7 +36,7 @@ function Room(props) {
         return () => {
             ws.current.close();
         };
-    }, []);
+    }, [videoUrl]);
 
     // const addInput = (event) => {
     //     event.preventDefault();
@@ -125,8 +124,9 @@ function Room(props) {
             <div style={mainContentStyle}>
                 <VideoPlayer 
                     style={videoPlayerStyle}
-                    videoUrl={videoUrl} />
-                <Chat style={chatStyle} wse ={wse}/>
+                    videoUrl={videoUrl} 
+                    roomId ={props.roomId} />
+                <Chat style={chatStyle} roomId ={props.roomId}/>
             </div>
         </div>
     )
