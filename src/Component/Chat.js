@@ -41,7 +41,7 @@ function Chat(props) {
 
     const sendMessage=(event)=>{
         event.preventDefault();
-        const message = { message: sendMessageData, videoUrl:null }
+        const message = { message: sendMessageData }
         ws1.send(JSON.stringify(message))
         // ws1.addEventListener('open', function (event) {
         //     ws1.send(JSON.stringify(message))
