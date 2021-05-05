@@ -43,7 +43,7 @@ function JoinRoom(props) {
     return (
         <div>
             <div style={containerStyle}>
-                <Room style={roomStyle} roomId={roomId} />
+                <Room style={roomStyle} roomId={roomId} userName={userName}/>
             </div>
         </div>
     )

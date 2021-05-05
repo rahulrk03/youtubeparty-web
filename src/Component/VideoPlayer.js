@@ -1,27 +1,21 @@
 import React, { useRef, useEffect, useState }  from 'react';
 import ReactPlayer from 'react-player';
 import {webSocketEndpoint} from './Endpoint';
+import ReconnectingWebSocket from 'reconnecting-websocket';
 
 
 function VideoPlayer(props) {
-    // console.log("Room Id", props.roomId)
     
     const [playStatus, setPlayStatus] = useState(false)
-    // console.log("VideoUrl is-", props.videoUrl)
-    // const playFunction = (event) => {
-    //     event.preventDefault();
-    //     setPlayStatus(!playStatus)
-    // }
+
     const roomId = props.roomId;
     const wse = webSocketEndpoint +  roomId+ "/";
-    const ws1 = new WebSocket(wse)
+    const ws1 = new ReconnectingWebSocket(wse)
     const ws = useRef(null);
 
     const playFunction=(event)=>{
         event.preventDefault();
-        // setVideoUrl(input)
         setPlayStatus(!playStatus)
-        // const newStatus = ''
         if (playStatus){
             const message = {playStatus:"Stop"}
             ws1.send(JSON.stringify(message))
@@ -57,7 +51,7 @@ function VideoPlayer(props) {
                 url={props.videoUrl}
                 playing = {playStatus}
                 playIcon={<button onClick={playFunction}>Play</button>}
-                width = "920px"
+                width = "890px"
                 height = "500px"
             />
             <button style={props.style}

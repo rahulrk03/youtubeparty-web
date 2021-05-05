@@ -3,16 +3,27 @@ import VideoPlayer from './VideoPlayer'
 import Chat from './Chat'
 import Button from '@material-ui/core/Button';
 import {webSocketEndpoint} from './Endpoint';
+import ReconnectingWebSocket from 'reconnecting-websocket';
+import Box from '@material-ui/core/Box';
 
+
+const defaultProps = {
+    bgcolor: 'background.paper',
+    m: 1,
+    style: {  height: 400, padding:5 },
+    borderColor: 'text.primary',
+  };
 
 
 function Room(props) {
     const ws = useRef(null);
     const wse = webSocketEndpoint + props.roomId + "/";
-    const ws1 = new WebSocket(wse)
+    // const ws1 = new WebSocket(wse)
+    const ws1 = new ReconnectingWebSocket(wse)
 
     const [input, setInput] = useState("")
     const [videoUrl, setVideoUrl] = useState("")
+    console.log('Username is - ', props.userName)
 
     const sendMessage=(event)=>{
         event.preventDefault();
@@ -87,6 +98,12 @@ function Room(props) {
         padding: '5px',
         width: '70%'
     }
+    const inputStyleChat={
+        marginLeft:10,
+        float:'bottom',
+        marginTop:20,
+        justifyContent: 'flex-end',
+    }
 
 
     return (
@@ -126,7 +143,9 @@ function Room(props) {
                     style={videoPlayerStyle}
                     videoUrl={videoUrl} 
                     roomId ={props.roomId} />
-                <Chat style={chatStyle} roomId ={props.roomId}/>
+                <Box borderLeft={2.5} {...defaultProps}>
+                    <Chat style={inputStyleChat} roomId ={props.roomId}/>
+                </Box>
             </div>
         </div>
     )

@@ -21,7 +21,7 @@ function App() {
     <Router>
     <Header userName={userName}/>
       <Switch>
-          <Route exact path="/" component= {() => (<Home userName={userName} />)}></Route>
+          <Route exact path="/" component= {Home}></Route>
           <Route exact path="/home" component={Home}></Route>
           <Route path="/joinroom" component={JoinRoom}></Route>
         </Switch>
