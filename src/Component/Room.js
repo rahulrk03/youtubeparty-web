@@ -87,11 +87,11 @@ function Room(props) {
         paddingRight:'10px'
     };
 
-    // const chatStyle ={
-    //     display: 'flex', 
-    //     flexDirection: 'column',
-    //     float:'right'
-    // }
+    const chatStyle ={
+        display: 'flex', 
+        flexDirection: 'column',
+        float:'right'
+    }
 
     const inputStyle ={
         height:'35px',
@@ -99,9 +99,6 @@ function Room(props) {
         width: '70%'
     }
     const inputStyleChat={
-        display: 'flex', 
-        flexDirection: 'column',
-        float:'right',
         marginLeft:10,
         float:'bottom',
         marginTop:20,
